@@ -17,12 +17,12 @@ public class CategoriaServiceImpl implements ICategoriaService {
 
     @Override
     public List<Categoria> findAll() {
-        return List.of();
+        return categoriaRepository.findAll();
     }
 
     @Override
     public Categoria findById(Long id) {
-        return null;
+        return categoriaRepository.findById(id);
     }
 
     @Override

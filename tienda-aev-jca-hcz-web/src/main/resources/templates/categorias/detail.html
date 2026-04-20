@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Detalle de Categoría</title>
 </head>
 <body>
+<h1 th:text="${categoria.nombre}">Nombre Categoría</h1>
 
+<div>
+    <p><strong>Descripción:</strong> <span th:text="${categoria.descripcion}">Descripción aquí</span></p>
+
+    <div th:if="${categoria.imagen != null}">
+        <img th:src="@{/imagenes/categories/{img}(img=${categoria.imagen})}"
+             th:alt="${categoria.nombre}"
+             style="max-width: 300px;"/>
+    </div>
+
+    <p th:if="${categoria.imagen == null or categoria.imagen == ''}">
+        <em>Sin imagen disponible</em>
+    </p>
+</div>
+
+<br>
+<a th:href="@{/categorias}">Volver al listado</a>
 </body>
 </html>

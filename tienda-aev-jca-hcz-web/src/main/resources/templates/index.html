@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>LingTech</title>
 </head>
 <body>
-
+<h1>Bienvenido a LingTech</h1>
+<nav>
+    <ul>
+        <li><a th:href="@{/categorias}">Ver Categorías</a></li>
+        <li><a th:href="@{/sobre-nosotros.html}">Sobre Nosotros</a></li>
+        <li><a th:href="@{/condiciones-uso}">Condiciones de Uso</a></li>
+    </ul>
+</nav>
+<p>Explora nuestros productos por categorías.</p>
 </body>
 </html>

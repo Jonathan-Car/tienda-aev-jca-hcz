@@ -1,10 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Condiciones de Uso - LingTech</title>
 </head>
 <body>
+<header>
+    <h1 th:text="'Condiciones de Uso de ' + ${appName ?: 'LingTech'}">Condiciones de Uso</h1>
+</header>
 
+<main>
+    <section>
+        <h2>1. Aceptación de los términos</h2>
+        <p>Al acceder a este sitio web, usted acepta cumplir con estas condiciones de uso y todas las leyes aplicables.</p>
+    </section>
+
+    <section>
+        <h2>2. Uso de la licencia</h2>
+        <p>Se concede permiso para descargar temporalmente una copia de los materiales en el sitio web de la tienda para visualización personal y no comercial solamente.</p>
+    </section>
+
+    <section>
+        <h2>3. Propiedad Intelectual</h2>
+        <p>Todos los contenidos, incluyendo nombres de categorías e imágenes, son propiedad exclusiva de la tienda virtual.</p>
+    </section>
+</main>
+
+<footer>
+    <br>
+    <a th:href="@{/}">Volver a la página principal</a>
+</footer>
 </body>
 </html>

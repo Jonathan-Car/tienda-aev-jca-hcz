@@ -10,15 +10,17 @@
 <div>
     <p><strong>Descripción:</strong> <span th:text="${categoria.descripcion}">Descripción aquí</span></p>
 
-    <div th:if="${categoria.imagen != null}">
-        <img th:src="@{/imagenes/categories/{img}(img=${categoria.imagen})}"
+    <div class="foto-categoria">
+        <img th:if="${categoria.imagen != null and !categoria.imagen.isEmpty()}"
+             th:src="@{/imagenes/categories/{img}(img=${categoria.imagen})}"
              th:alt="${categoria.nombre}"
              style="max-width: 300px;"/>
-    </div>
 
-    <p th:if="${categoria.imagen == null or categoria.imagen == ''}">
-        <em>Sin imagen disponible</em>
-    </p>
+        <img th:unless="${categoria.imagen != null and !categoria.imagen.isEmpty()}"
+             th:src="@{/imagenes/categories/no-disponible.png}"
+             alt="Imagen no disponible"
+             style="max-width: 300px; opacity: 0.6;"/>
+    </div>
 </div>
 
 <br>

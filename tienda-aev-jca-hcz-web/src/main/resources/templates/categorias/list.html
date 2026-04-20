@@ -2,27 +2,72 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Listado de Categorías</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorías - LingTech</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .table-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 50px;
+        }
+        .header-title {
+            color: #2c3e50;
+            font-weight: bold;
+            border-left: 5px solid #0d6efd;
+            padding-left: 15px;
+        }
+    </style>
 </head>
 <body>
-<h1>Nuestras Categorías</h1>
-<table border="1">
-    <thead>
-    <tr>
-        <th>Nombre</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="cat : ${categorias}">
-        <td th:text="${cat.nombre}">Nombre de la categoría</td>
-        <td>
-            <a th:href="@{/categorias/{id}(id=${cat.id})}">Ver detalle</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<br>
-<a th:href="@{/}">Volver al inicio</a>
+
+<div class="container">
+    <div class="table-container shadow-sm">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="header-title">Nuestras Categorías</h1>
+            <span class="badge bg-secondary" th:text="${categorias.size() + ' categorías encontradas'}">0 categorías</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                <tr>
+                    <th scope="col" class="ps-4">Nombre de la Categoría</th>
+                    <th scope="col" class="text-center">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cat : ${categorias}">
+                    <td class="ps-4 fw-semibold text-dark">
+                        <i class="bi bi-tag-fill me-2 text-primary"></i>
+                        <span th:text="${cat.nombre}">Nombre</span>
+                    </td>
+                    <td class="text-center">
+                        <a th:href="@{/categorias/{id}(id=${cat.id})}"
+                           class="btn btn-primary btn-sm px-4 rounded-pill shadow-sm">
+                            Ver Detalle
+                        </a>
+                    </td>
+                </tr>
+                <tr th:if="${categorias.empty}">
+                    <td colspan="2" class="text-center py-4 text-muted italic">
+                        No hay categorías disponibles en este momento.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4 border-top pt-3">
+            <a th:href="@{/}" class="btn btn-link text-decoration-none">
+                <span class="me-1">←</span> Volver al inicio
+            </a>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

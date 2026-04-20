@@ -2,28 +2,95 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Detalle de Categoría</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${categoria.nombre} + ' - LingTech'">Detalle de Categoría</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .detail-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: none;
+        }
+        .img-container {
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+        .img-fluid-custom {
+            max-height: 450px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .img-fluid-custom:hover {
+            transform: scale(1.05);
+        }
+        .badge-category {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+    </style>
 </head>
 <body>
-<h1 th:text="${categoria.nombre}">Nombre Categoría</h1>
 
-<div>
-    <p><strong>Descripción:</strong> <span th:text="${categoria.descripcion}">Descripción aquí</span></p>
+<div class="container py-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}" class="text-decoration-none">Inicio</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/categorias}" class="text-decoration-none">Categorías</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${categoria.nombre}">Categoría</li>
+        </ol>
+    </nav>
 
-    <div class="foto-categoria">
-        <img th:if="${categoria.imagen != null and !categoria.imagen.isEmpty()}"
-             th:src="@{/imagenes/categories/{img}(img=${categoria.imagen})}"
-             th:alt="${categoria.nombre}"
-             style="max-width: 300px;"/>
+    <div class="card detail-card shadow-lg">
+        <div class="row g-0">
+            <div class="col-md-6 img-container">
+                <img th:if="${categoria.imagen != null and !categoria.imagen.isEmpty()}"
+                     th:src="@{/imagenes/categories/{img}(img=${categoria.imagen})}"
+                     th:alt="${categoria.nombre}"
+                     class="img-fluid img-fluid-custom p-4"/>
 
-        <img th:unless="${categoria.imagen != null and !categoria.imagen.isEmpty()}"
-             th:src="@{/imagenes/categories/no-disponible.png}"
-             alt="Imagen no disponible"
-             style="max-width: 300px; opacity: 0.6;"/>
+                <div th:unless="${categoria.imagen != null and !categoria.imagen.isEmpty()}" class="text-center">
+                    <img th:src="@{/imagenes/categories/no-disponible.png}"
+                         alt="Imagen no disponible"
+                         class="img-fluid opacity-50"
+                         style="max-width: 200px;"/>
+                    <p class="text-muted mt-2">Imagen no disponible</p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card-body p-5">
+                    <span class="badge bg-primary mb-3 badge-category">Catálogo Oficial</span>
+                    <h1 class="display-5 fw-bold mb-4" th:text="${categoria.nombre}">Nombre Categoría</h1>
+
+                    <div class="mb-4">
+                        <h5 class="text-secondary fw-bold">Descripción</h5>
+                        <p class="lead text-muted" th:text="${categoria.descripcion}">
+                            Aquí va la descripción detallada de la categoría.
+                        </p>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-5">
+                        <a th:href="@{/categorias}" class="btn btn-outline-secondary btn-lg px-4 me-md-2">
+                            <i class="bi bi-arrow-left"></i> Volver al listado
+                        </a>
+                        <button class="btn btn-primary btn-lg px-4 shadow">Explorar Productos</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<br>
-<a th:href="@{/categorias}">Volver al listado</a>
+<footer class="text-center text-muted mt-5 pb-4">
+    <small>© 2026 LingTech Cloud - Vista de Detalle Optimizada</small>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -50,16 +50,15 @@
         <div class="row g-0">
             <div class="col-md-6 img-container">
                 <img th:if="${categoria.imagen != null and !categoria.imagen.isEmpty()}"
-                     th:src="@{/imagenes/categories/{img}(img=${categoria.imagen})}"
+                     th:src="@{/imagenes/categorias/{img}(img=${categoria.imagen})}"
                      th:alt="${categoria.nombre}"
                      class="img-fluid img-fluid-custom p-4"/>
 
                 <div th:unless="${categoria.imagen != null and !categoria.imagen.isEmpty()}" class="text-center">
-                    <img th:src="@{/imagenes/categories/no-disponible.png}"
+                    <img th:src="@{/imagenes/categorias/no-disponible.png}"
                          alt="Imagen no disponible"
                          class="img-fluid opacity-50"
                          style="max-width: 200px;"/>
-                    <p class="text-muted mt-2">Imagen no disponible</p>
                 </div>
             </div>
 
@@ -79,7 +78,6 @@
                         <a th:href="@{/templates/categories}" class="btn btn-outline-secondary btn-lg px-4 me-md-2">
                             <i class="bi bi-arrow-left"></i> Volver al listado
                         </a>
-                        <button class="btn btn-primary btn-lg px-4 shadow">Explorar Productos</button>
                     </div>
                 </div>
             </div>

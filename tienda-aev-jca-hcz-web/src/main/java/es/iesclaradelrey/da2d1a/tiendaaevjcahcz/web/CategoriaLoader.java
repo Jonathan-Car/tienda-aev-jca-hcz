@@ -15,11 +15,11 @@ public class CategoriaLoader implements CommandLineRunner {
     }
     @Override
     public void run(String... args) throws Exception {
-        Categoria c1 = new Categoria(1L, "Moviles", "Los mejores moviles del mercado", "redmi13.png");
+        Categoria c1 = new Categoria(1L, "Móviles", "Los mejores móviles del mercado", "redmi13.png");
 
-        Categoria c2 = new Categoria(2L, "Portatiles", "Portatiles perfectos para el gaming", "portatilDell.png");
+        Categoria c2 = new Categoria(2L, "Portátiles", "Portátiles perfectos para el gaming", "portatilDell.png");
 
-        Categoria c3 = new Categoria(3L, "Perifericos", "Los mejores perifericos", null);
+        Categoria c3 = new Categoria(3L, "Periféricos", "Los mejores periféricos", null);
 
         Categoria c4 = new Categoria(4L, "Tablets", "Mejores tablets del mercado", "tablets.png");
 

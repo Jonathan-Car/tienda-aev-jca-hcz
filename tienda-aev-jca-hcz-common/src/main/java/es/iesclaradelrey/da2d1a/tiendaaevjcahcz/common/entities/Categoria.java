@@ -3,6 +3,7 @@ package es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.entities;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "categorias")

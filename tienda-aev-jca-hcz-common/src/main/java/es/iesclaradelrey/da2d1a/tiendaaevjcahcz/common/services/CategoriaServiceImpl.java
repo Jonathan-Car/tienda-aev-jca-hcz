@@ -22,7 +22,7 @@ public class CategoriaServiceImpl implements ICategoriaService {
 
     @Override
     public Categoria findById(Long id) {
-        return categoriaRepository.findById(id);
+        return categoriaRepository.findById(id).orElse(null);
     }
 
     @Override

@@ -2,18 +2,28 @@ package es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+
 @Entity
+@Table(name = "categorias")
 public class Categoria {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Cambio a IDENTITY para uso de H2
     private Long id;
 
+    @Column(nullable = false, length = 100)
     private String nombre;
 
+    @Column(length = 2000)
     private String descripcion;
 
+    @Column(length = 500)
     private String imagen = "";
+
+    @OneToMany(mappedBy = "categoria")
+    private List<Producto> productos = new ArrayList<>();
 
     public Categoria() {}
 
@@ -54,5 +64,12 @@ public class Categoria {
 
     public void setImagen(String imagen) {
         this.imagen = imagen;
+    }
+
+    public List<Producto> getProductos() {
+        return productos;
+    }
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
     }
 }

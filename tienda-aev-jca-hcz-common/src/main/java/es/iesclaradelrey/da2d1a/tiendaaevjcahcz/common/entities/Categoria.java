@@ -23,7 +23,8 @@ public class Categoria {
     @Column(length = 500)
     private String imagen = "";
 
-    @OneToMany(mappedBy = "categoria")
+    // Una categoría puede tener varios productos (7-3.1)
+    @ManyToMany(mappedBy = "categorias")
     private List<Producto> productos = new ArrayList<>();
 
     public Categoria() {}

@@ -29,4 +29,8 @@ public class CategoriaServiceImpl implements ICategoriaService {
     public void save(Categoria categoria) {
         categoriaRepository.save(categoria);
     }
+    @Override
+    public void deleteById(Long id) {
+        categoriaRepository.deleteById(id);
+    }
 }

@@ -7,4 +7,5 @@ public interface ICategoriaService {
     List<Categoria> findAll();
     Categoria findById(Long id);
     void save(Categoria categoria);
+    void deleteById(Long id);
 }

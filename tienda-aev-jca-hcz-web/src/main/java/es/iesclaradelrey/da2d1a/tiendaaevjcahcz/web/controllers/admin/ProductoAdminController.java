@@ -1,5 +1,7 @@
 package es.iesclaradelrey.da2d1a.tiendaaevjcahcz.web.controllers.admin;
 
+import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.entities.Producto;
+import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.services.IProductoService;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

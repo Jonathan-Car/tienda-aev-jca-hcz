@@ -2,6 +2,8 @@ package es.iesclaradelrey.da2d1a.tiendaaevjcahcz.web.controllers.admin;
 
 import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.entities.Marca;
 import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.repositories.IMarcaRepository;
+import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.services.IMarcaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
@@ -9,7 +11,15 @@ import org.springframework.ui.Model;
 @Controller
 @RequestMapping("admin/marcas")
 public class MarcaAdminController {
-    private IMarcaRepository marcaRepository;
+
+    private final IMarcaRepository marcaRepository;
+    private final IMarcaService marcaService;
+
+    @Autowired
+    public MarcaAdminController(IMarcaRepository marcaRepository, IMarcaService marcaService) {
+        this.marcaRepository = marcaRepository;
+        this.marcaService = marcaService;
+    }
 
     @GetMapping("/")
     public String marcaRedirigida() {
@@ -17,7 +27,7 @@ public class MarcaAdminController {
     }
     @GetMapping("/nueva")
     public String nuevaMarca(Model model) {
-        model.addAttribute("marca", marcaService.findALl());
+        model.addAttribute("marca", marcaService.findAll());
         return "admin/marcas/formulario";
     }
     @PostMapping("/{id}/editar")

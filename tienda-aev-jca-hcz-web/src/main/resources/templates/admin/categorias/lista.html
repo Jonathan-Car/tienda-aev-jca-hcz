@@ -14,6 +14,13 @@
 </nav>
 
 <div class="container">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb bg-white shadow-sm p-3 rounded border">
+            <li class="breadcrumb-item"><a th:href="@{/admin}" class="text-decoration-none">Inicio</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Categorías</li>
+        </ol>
+    </nav>
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Gestión de Categorías</h2>
         <a th:href="@{/admin/categorias/nueva}" class="btn btn-primary">

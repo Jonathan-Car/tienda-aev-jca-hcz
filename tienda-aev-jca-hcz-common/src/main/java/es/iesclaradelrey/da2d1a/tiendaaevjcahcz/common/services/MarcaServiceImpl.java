@@ -22,6 +22,6 @@ public class MarcaServiceImpl implements IMarcaService {
 
     @Override
     public void deleteById(Long id) {
-
+        marcaRepository.deleteById(id);
     }
 }

@@ -2,10 +2,12 @@ package es.iesclaradelrey.da2d1a.tiendaaevjcahcz.web;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-@SpringBootApplication(
-        scanBasePackages = "es.iesclaradelrey.da2d1a.tiendaaevjcahcz",
-        exclude = { org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration.class }
-)
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+@SpringBootApplication(scanBasePackages = "es.iesclaradelrey.da2d1a.tiendaaevjcahcz")
+@EnableJpaRepositories("es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.repositories")
+@EntityScan("es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.entities")
 public class WebApp {
     public static void main(String[] args) {
         SpringApplication.run(WebApp.class, args);

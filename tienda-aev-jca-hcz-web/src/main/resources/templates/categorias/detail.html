@@ -1,41 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${categoria.nombre} + ' - LingTech'">Detalle de Categoría</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #f8f9fa; }
-        .detail-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            border: none;
-        }
-        .img-container {
-            background: #e9ecef;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 400px;
-        }
-        .img-fluid-custom {
-            max-height: 450px;
-            object-fit: contain;
-            transition: transform 0.3s ease;
-        }
-        .img-fluid-custom:hover {
-            transform: scale(1.05);
-        }
-        .badge-category {
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.8rem;
-        }
-    </style>
-</head>
+<head th:replace="~{partes :: cabecera_publica('Detalle de Categoría')}"></head>
+
+<style>
+    body { background-color: #f8f9fa; }
+    .detail-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        border: none;
+    }
+    .img-container {
+        background: #e9ecef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 400px;
+    }
+    .img-fluid-custom {
+        max-height: 450px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+    .img-fluid-custom:hover { transform: scale(1.05); }
+    .badge-category {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.8rem;
+    }
+    /* Estilos para los productos de la categoría */
+    .product-item-card {
+        transition: all 0.3s ease;
+        border: none;
+        border-radius: 12px;
+    }
+    .product-item-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+    }
+</style>
+
 <body>
+<div th:replace="~{partes :: menu_publico}"></div>
 
 <div class="container py-5">
     <nav aria-label="breadcrumb" class="mb-4">
@@ -46,7 +52,7 @@
         </ol>
     </nav>
 
-    <div class="card detail-card shadow-lg">
+    <div class="card detail-card shadow-lg mb-5">
         <div class="row g-0">
             <div class="col-md-6 img-container">
                 <img th:if="${categoria.imagen != null and !categoria.imagen.isEmpty()}"
@@ -70,7 +76,7 @@
                     <div class="mb-4">
                         <h5 class="text-secondary fw-bold">Descripción</h5>
                         <p class="lead text-muted" th:text="${categoria.descripcion}">
-                            Aquí va la descripción detallada de la categoría.
+                            Descripción de la categoría.
                         </p>
                     </div>
 
@@ -83,12 +89,41 @@
             </div>
         </div>
     </div>
+
+    <div class="mt-5">
+        <h3 class="fw-bold mb-4 border-bottom pb-2">Productos en esta categoría</h3>
+
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4" th:if="${not #lists.isEmpty(categoria.productos)}">
+            <div class="col" th:each="p : ${categoria.productos}">
+                <div class="card h-100 product-item-card shadow-sm">
+                    <div class="p-3 text-center bg-light rounded-top">
+                        <img th:if="${p.imagen != null and !p.imagen.isEmpty()}"
+                             th:src="@{/imagenes/productos/{img}(img=${p.imagen})}"
+                             class="img-fluid" style="max-height: 120px; object-fit: contain;">
+                        <img th:unless="${p.imagen != null and !p.imagen.isEmpty()}"
+                             th:src="@{/imagenes/productos/no-disponible.png}"
+                             class="img-fluid opacity-25" style="max-height: 120px;">
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold text-dark" th:text="${p.nombre}">Producto</h6>
+                        <p class="card-text text-primary fw-bold" th:text="${p.precioFinal + '€'}">0€</p>
+                        <a th:href="@{/productos/{id}/{nombre}(id=${p.id}, nombre=${p.nombre})}"
+                           class="btn btn-sm btn-outline-dark w-100">Ver detalles</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${#lists.isEmpty(categoria.productos)}" class="alert alert-light border text-center py-4">
+            No hay productos asignados a esta categoría todavía.
+        </div>
+    </div>
 </div>
 
 <footer class="text-center text-muted mt-5 pb-4">
     <small>© 2026 LingTech Cloud - Vista de Detalle Optimizada</small>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<th:block th:replace="~{partes :: scripts}"></th:block>
 </body>
 </html>

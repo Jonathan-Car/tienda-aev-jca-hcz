@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="cabecera_publica(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="|${titulo} - LingTech|">LingTech</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+
+<nav th:fragment="menu_publico" class="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-0">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary" th:href="@{/}">
+            <i class="bi bi-cpu-fill me-2"></i>LingTech
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navPublic">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navPublic">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/sobre-nosotros}">Sobre Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/categorias}">Categorías</a></li>
+            </ul>
+            <div class="navbar-nav">
+                <a class="btn btn-outline-dark btn-sm" th:href="@{/admin/productos}">
+                    <i class="bi bi-person-lock me-1"></i> Admin Panel
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<nav th:fragment="migas_publicas(pagina_actual, ruta_padre, nombre_padre)" aria-label="breadcrumb" class="container mt-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{/}" class="text-decoration-none">Inicio</a></li>
+
+        <li th:if="${ruta_padre != null}" class="breadcrumb-item">
+            <a th:href="@{${ruta_padre}}" th:text="${nombre_padre}" class="text-decoration-none">Padre</a>
+        </li>
+
+        <li class="breadcrumb-item active" aria-current="page" th:text="${pagina_actual}">Página Actual</li>
+    </ol>
+</nav>
+
+<head th:fragment="cabecera_admin(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="|ADMIN: ${titulo}|">Panel de Control</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        .navbar-admin { background-color: #212529 !important; }
+        .sidebar-link.active { background-color: #0d6efd; color: white !important; }
+    </style>
+</head>
+
+<nav th:fragment="menu_admin(activa)" class="navbar navbar-expand-lg navbar-dark navbar-admin mb-4 shadow">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-info" th:href="@{/admin/productos}">
+            <i class="bi bi-shield-lock me-2"></i>LingTech <small class="text-white-50">Admin</small>
+        </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${activa == 'productos' ? 'active' : ''}"
+                       th:href="@{/admin/productos}">Productos</a>
+                </li>
+            </ul>
+            <a class="btn btn-sm btn-outline-light" th:href="@{/}">
+                <i class="bi bi-eye me-1"></i> Ver Tienda
+            </a>
+        </div>
+    </div>
+</nav>
+
+<th:block th:fragment="scripts">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</th:block>
+
+</html>

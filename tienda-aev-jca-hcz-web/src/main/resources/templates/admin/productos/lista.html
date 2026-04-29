@@ -1,58 +1,82 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin - Listado de Productos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-</head>
+<head th:replace="~{admin/partes :: cabecera_comun('Gestión de Productos')}"></head>
+
 <body class="bg-light">
-<nav class="navbar navbar-dark bg-dark mb-4">
-    <div class="container">
-        <a class="navbar-brand" th:href="@{/admin}">Productos - LingTech</a>
-    </div>
-</nav>
+<div th:replace="~{admin/partes :: menu_superior('productos')}"></div>
 
 <div class="container">
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb bg-white shadow-sm p-3 rounded border">
-            <li class="breadcrumb-item"><a th:href="@{/admin}" class="text-decoration-none">Inicio</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Productos</li>
-        </ol>
-    </nav>
+    <div th:replace="~{admin/partes :: migas('Listado de Productos')}"></div>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Gestión de Productos</h2>
-        <a th:href="@{/admin/productos/nuevo}" class="btn btn-primary">
-            <i class="bi bi-plus-circle"></i> Nuevo Producto
+        <h2 class="text-dark"><i class="bi bi-box-seam me-2"></i>Gestión de Productos</h2>
+        <a th:href="@{/admin/productos/nuevo}" class="btn btn-primary shadow-sm">
+            <i class="bi bi-plus-circle me-1"></i> Nuevo Producto
         </a>
     </div>
 
-    <div class="card shadow">
-        <div class="card-body">
-            <table class="table table-striped align-middle">
+    <div class="card shadow border-0">
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0">
                 <thead class="table-dark">
                 <tr>
-                    <th>EAN</th>
+                    <th class="ps-4">EAN</th>
                     <th>Nombre</th>
                     <th>Marca</th>
+                    <th>Categorías</th>
                     <th>Precio</th>
-                    <th class="text-center">Acciones</th>
+                    <th>Dto.</th>
+                    <th class="text-center pe-4">Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="p : ${productos}">
-                    <td th:text="${p.codigoProducto}">1234567890123</td>
-                    <td th:text="${p.nombre}" class="fw-bold">Producto</td>
-                    <td th:text="${p.marca.nombre}">Marca</td>
-                    <td th:text="${p.precio} + ' €'">0.00 €</td>
-                    <td class="text-center">
-                        <a th:href="@{/admin/productos/{id}/editar(id=${p.id})}" class="btn btn-warning btn-sm">
-                            <i class="bi bi-pencil"></i> Editar
-                        </a>
-                        <a th:href="@{/admin/productos/{id}/borrar(id=${p.id})}" class="btn btn-danger btn-sm">
-                            <i class="bi bi-trash"></i> Borrar
-                        </a>
+                    <td class="ps-4" th:text="${p?.codigoProducto ?: 'S/N'}">8412345678901</td>
+                    <td class="fw-bold" th:text="${p?.nombre ?: 'Sin nombre'}">Producto</td>
+
+                    <td>
+                        <div th:if="${p?.marca != null}">
+                            <a th:href="@{/admin/marcas/{id}(id=${p.marca.id})}"
+                               th:text="${p.marca.nombre}"
+                               class="badge bg-info text-dark text-decoration-none">
+                                Marca
+                            </a>
+                        </div>
+                        <span th:unless="${p?.marca != null}" class="text-muted small italic">Sin marca</span>
+                    </td>
+
+                    <td>
+                        <div th:if="${not #lists.isEmpty(p?.categorias)}">
+                                    <span th:each="cat : ${p.categorias}"
+                                          th:text="${cat.nombre}"
+                                          class="badge bg-success me-1">
+                                    </span>
+                        </div>
+                        <span th:if="${#lists.isEmpty(p?.categorias)}" class="text-muted small">Sin cat.</span>
+                    </td>
+
+                    <td th:text="${p?.precio != null ? p.precio + ' €' : '0.00 €'}">0.00 €</td>
+
+                    <td th:text="${p?.descuento + '%'}">0%</td>
+
+                    <td class="text-center pe-4">
+                        <div class="btn-group shadow-sm">
+                            <a th:href="@{/admin/productos/{id}/editar(id=${p?.id})}"
+                               class="btn btn-sm btn-outline-warning" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a th:href="@{/admin/productos/{id}/borrar(id=${p?.id})}"
+                               class="btn btn-sm btn-outline-danger" title="Borrar">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(productos)}">
+                    <td colspan="7" class="text-center py-5">
+                        <p class="text-muted mb-0">No hay productos registrados en el sistema.</p>
+                        <small class="text-secondary">Utiliza el botón superior para añadir el primero.</small>
                     </td>
                 </tr>
                 </tbody>
@@ -60,5 +84,7 @@
         </div>
     </div>
 </div>
+
+<th:block th:replace="~{admin/partes :: scripts_comun}"></th:block>
 </body>
 </html>

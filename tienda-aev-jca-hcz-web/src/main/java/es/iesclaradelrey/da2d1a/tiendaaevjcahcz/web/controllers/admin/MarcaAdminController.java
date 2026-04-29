@@ -26,6 +26,20 @@ public class MarcaAdminController {
     public String marcaRedirigida() {
         return "redirect:/admin/marcas";
     }
+
+    @GetMapping("/{id}")
+    public String detalleMarca(@PathVariable Long id, Model model) {
+        Marca marca = marcaService.findById(id);
+        if (marca == null) {
+            return "redirect:/admin/marcas";
+        }
+
+        model.addAttribute("marca", marca);
+        model.addAttribute("productos", marcaService.obtenerProductosDeMarca(id));
+
+        return "admin/marcas/detalle";
+    }
+
     @GetMapping("/nueva")
     public String nuevaMarca(Model model) {
         model.addAttribute("marca",new Marca() );

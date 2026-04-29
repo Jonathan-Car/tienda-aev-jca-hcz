@@ -1,84 +1,93 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${producto.nombre} + ' - LingTech'">Detalle de Producto</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #f8f9fa; }
-        .detail-card { background: white; border-radius: 20px; overflow: hidden; border: none; }
-        .img-container { background: #f1f3f5; display: flex; align-items: center; justify-content: center; min-height: 500px; }
-        .img-fluid-custom { max-height: 450px; object-fit: contain; transition: transform 0.3s ease; }
-        .img-fluid-custom:hover { transform: scale(1.05); }
-        .precio-old { text-decoration: line-through; color: #dc3545; font-size: 1.2rem; }
-        .precio-now { color: #198754; font-size: 2.8rem; font-weight: bold; }
-    </style>
-</head>
+<head th:replace="~{partes :: cabecera_publica('Catálogo')}"></head>
+
+<style>
+    body { background-color: #f8f9fa; }
+    .product-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        border-radius: 15px;
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    .precio-original {
+        text-decoration: line-through;
+        color: #dc3545;
+        font-size: 0.9rem;
+    }
+    .precio-final {
+        color: #198754;
+        font-weight: bold;
+        font-size: 1.25rem;
+    }
+    .description-truncate {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        height: 3rem;
+    }
+</style>
+
 <body>
+<div th:replace="~{partes :: menu_publico}"></div>
 
 <div class="container py-5">
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}" class="text-decoration-none">Inicio</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/productos}" class="text-decoration-none">Catálogo</a></li>
-            <li class="breadcrumb-item active" aria-current="page" th:text="${producto.nombre}">Producto</li>
-        </ol>
-    </nav>
+    <header class="text-center mb-5">
+        <h1 class="display-4 fw-bold">Catálogo LingTech</h1>
+        <p class="text-muted">Explora nuestra selección de productos tecnológicos</p>
+    </header>
 
-    <div class="card detail-card shadow-lg">
-        <div class="row g-0">
-            <div class="col-md-6 img-container">
-                <img th:if="${producto.imagen != null and !producto.imagen.isEmpty()}"
-                     th:src="@{/imagenes/productos/{img}(img=${producto.imagen})}"
-                     th:alt="${producto.nombre}"
-                     class="img-fluid img-fluid-custom p-4"/>
-
-                <div th:unless="${producto.imagen != null and !producto.imagen.isEmpty()}" class="text-center">
-                    <img th:src="@{/imagenes/productos/no-disponible.png}"
-                         alt="Imagen no disponible"
-                         class="img-fluid opacity-50"
-                         style="max-width: 250px;"/>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="col" th:each="p : ${productos}">
+            <div class="card h-100 product-card shadow-sm">
+                <div class="bg-light p-4 text-center" style="border-radius: 15px 15px 0 0;">
+                    <img th:if="${p.imagen != null and !p.imagen.isEmpty()}"
+                         th:src="@{/imagenes/productos/{img}(img=${p.imagen})}"
+                         class="img-fluid" style="max-height: 150px; object-fit: contain;"
+                         th:alt="${p.nombre}">
+                    <img th:unless="${p.imagen != null and !p.imagen.isEmpty()}"
+                         th:src="@{/imagenes/productos/no-disponible.png}"
+                         class="img-fluid opacity-25" style="max-height: 150px;">
                 </div>
-            </div>
 
-            <div class="col-md-6">
-                <div class="card-body p-5">
-                    <span class="badge bg-dark mb-3">PRODUCTO OFERTADO</span>
-                    <h1 class="display-4 fw-bold mb-3" th:text="${producto.nombre}">Nombre del Producto</h1>
+                <div class="card-body">
+                    <h5 class="card-title fw-bold" th:text="${p.nombre}">Producto</h5>
 
-                    <div class="mb-4 p-3 bg-light rounded shadow-sm">
-                        <div th:if="${producto.descuento > 0}">
-                            <span class="precio-old" th:text="${producto.precioOriginal + ' €'}">0.00 €</span>
-                            <span class="badge bg-danger ms-2" th:text="${'-' + producto.descuento + '%'}">OFERTA</span>
+                    <p class="card-text text-muted small description-truncate"
+                       th:text="${#strings.length(p.descripcion) > 80 ? #strings.substring(p.descripcion,0,80) + '...' : p.descripcion}">
+                        Descripción del producto.
+                    </p>
+
+                    <div class="mt-3">
+                        <div th:if="${p.descuento > 0}">
+                            <span class="precio-original" th:text="${p.precioOriginal + '€'}">0€</span>
+                            <span class="badge bg-danger ms-2" th:text="${'-' + p.descuento + '%'}">-0%</span>
                         </div>
-                        <div class="precio-now" th:text="${producto.precioFinal + ' €'}">0.00 €</div>
-                        <p class="text-muted small mt-1">*IVA incluido y envío gratuito</p>
+                        <div class="precio-final" th:text="${p.precioFinal + '€'}">0€</div>
                     </div>
+                </div>
 
-                    <div class="mb-4">
-                        <h5 class="text-secondary fw-bold border-bottom pb-2">Descripción Completa</h5>
-                        <p class="lead text-muted mt-3" th:text="${producto.descripcion}">
-                            Descripción larga del producto.
-                        </p>
-                    </div>
-
-                    <div class="d-grid gap-3 d-md-flex justify-content-md-start mt-5">
-                        <button class="btn btn-primary btn-lg px-5 rounded-pill shadow">Comprar ahora</button>
-                        <a th:href="@{/productos}" class="btn btn-outline-secondary btn-lg px-4 rounded-pill">
-                            Volver al catálogo
-                        </a>
-                    </div>
+                <div class="card-footer bg-transparent border-0 pb-4">
+                    <a th:href="@{/productos/{id}/{nombre}(id=${p.id}, nombre=${p.nombre})}"
+                       class="btn btn-dark w-100 rounded-pill">Ver Detalles</a>
                 </div>
             </div>
         </div>
     </div>
+
+    <div th:if="${#lists.isEmpty(productos)}" class="alert alert-light text-center mt-5 border">
+        No se han encontrado productos en el catálogo.
+    </div>
 </div>
 
-<footer class="text-center text-muted mt-5 pb-4">
-    <small>© 2026 LingTech Cloud - Ficha Técnica de Producto (detalle.html)</small>
+<footer class="text-center py-4 text-muted">
+    <small>© 2026 LingTech - Listado de Productos</small>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<th:block th:replace="~{partes :: scripts}"></th:block>
 </body>
 </html>

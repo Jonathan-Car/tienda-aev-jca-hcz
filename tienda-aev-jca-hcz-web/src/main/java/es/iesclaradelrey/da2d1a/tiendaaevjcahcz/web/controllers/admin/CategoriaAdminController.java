@@ -25,6 +25,19 @@ public class CategoriaAdminController {
         model.addAttribute("categorias", categoriaService.findAll());
         return "admin/categorias/lista";
     }
+
+    @GetMapping("/{id}")
+    public String detalleCategoria(@PathVariable Long id, Model model) {
+        Categoria categoria = categoriaService.findById(id);
+
+        if (categoria == null) {
+            return "redirect:/admin/categorias";
+        }
+        model.addAttribute("categoria", categoria);
+        model.addAttribute("productos", categoriaService.obtenerProductosDeCategoria(id));
+        return "admin/categorias/detalle";
+    }
+
     @GetMapping("/nueva")
     public String nuevaCategoria(Model model) {
         model.addAttribute("categoria", new Categoria());

@@ -47,14 +47,14 @@ public class ProductoAdminController {
         return "admin/productos/formulario";
     }
     @PostMapping("/guardar")
-    public String guardarProducto(@ModelAttribute("producto") Producto producto, Model model){
-        try{
+    public String guardarProducto(Producto producto, Model model) {
+        try {
             productoService.save(producto);
             return "redirect:/admin/productos";
-        } catch(Exception e){
-            model.addAttribute("error", "Error al guardar: " + e.getMessage());
+        } catch (Exception e) {
             model.addAttribute("marcas", marcaService.findAll());
             model.addAttribute("categorias", categoriaService.findAll());
+            model.addAttribute("error", "Error al guardar el producto");
             return "admin/productos/formulario";
         }
     }

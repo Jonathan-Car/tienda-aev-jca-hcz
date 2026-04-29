@@ -31,7 +31,7 @@
             <div class="col-md-6 img-container">
                 <img th:if="${producto.imagen != null and !producto.imagen.isEmpty()}"
                      th:src="@{/imagenes/productos/{img}(img=${producto.imagen})}"
-                     th:alt="${producto.nombre}"
+                     th:alt="'Imagen de ' + ${producto.nombre}"
                      class="img-fluid img-fluid-custom p-4"/>
 
                 <div th:unless="${producto.imagen != null and !producto.imagen.isEmpty()}" class="text-center">
@@ -45,14 +45,30 @@
             <div class="col-md-6">
                 <div class="card-body p-5">
                     <span class="badge bg-dark mb-3">PRODUCTO OFERTADO</span>
-                    <h1 class="display-4 fw-bold mb-3" th:text="${producto.nombre}">Nombre del Producto</h1>
+                    <h1 class="display-4 fw-bold mb-1" th:text="${producto.nombre}">Nombre del Producto</h1>
+
+                    <p class="text-muted mb-3"><strong>EAN:</strong> <span th:text="${producto.codigoProducto}"></span></p>
+
+                    <p class="mb-2"><strong>Marca:</strong> <a th:href="@{/marcas/{id}(id=${producto.marca.id})}" th:text="${producto.marca.nombre}" class="text-decoration-none"></a></p>
+
+                    <div class="mb-3" th:if="${not #lists.isEmpty(producto.categorias)}">
+                        <strong>Categorías:</strong>
+                        <p th:if="${#lists.size(producto.categorias) == 1}" class="mb-0 d-inline">
+                            <a th:href="@{/categorias/{id}(id=${producto.categorias[0].id})}" th:text="${producto.categorias[0].nombre}" class="text-decoration-none"></a>
+                        </p>
+                        <ul th:if="${#lists.size(producto.categorias) > 1}" class="mt-1 mb-0">
+                            <li th:each="cat : ${producto.categorias}">
+                                <a th:href="@{/categorias/{id}(id=${cat.id})}" th:text="${cat.nombre}" class="text-decoration-none"></a>
+                            </li>
+                        </ul>
+                    </div>
 
                     <div class="mb-4 p-3 bg-light rounded shadow-sm">
                         <div th:if="${producto.descuento > 0}">
-                            <span class="precio-old" th:text="${producto.precioOriginal + ' €'}">0.00 €</span>
+                            <span class="precio-old" th:text="${producto.precio + ' €'}">0.00 €</span>
                             <span class="badge bg-danger ms-2" th:text="${'-' + producto.descuento + '%'}">OFERTA</span>
                         </div>
-                        <div class="precio-now" th:text="${producto.precioFinal + ' €'}">0.00 €</div>
+                        <div class="precio-now" th:text="${(producto.precio - (producto.precio * producto.descuento / 100.0)) + ' €'}">0.00 €</div>
                         <p class="text-muted small mt-1">*IVA incluido y envío gratuito</p>
                     </div>
 

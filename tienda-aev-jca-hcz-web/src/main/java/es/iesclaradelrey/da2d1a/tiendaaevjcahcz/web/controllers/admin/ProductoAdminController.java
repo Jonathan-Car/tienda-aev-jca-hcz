@@ -50,10 +50,10 @@ public class ProductoAdminController {
         return "admin/productos/formulario";
     }
     @PostMapping("/guardar")
-    public String guardarProducto(@Valid @ModelAttribute("producto") Producto producto,
-                                  BindingResult result,
-                                  @RequestParam("archivoImagen") MultipartFile archivoImagen,
-                                  Model model) {
+    public String guardar(@Valid @ModelAttribute("producto") Producto producto,
+                          BindingResult result,
+                          Model model) {
+
         if (result.hasErrors()) {
             model.addAttribute("marcas", marcaService.findAll());
             model.addAttribute("categorias", categoriaService.findAll());
@@ -61,12 +61,12 @@ public class ProductoAdminController {
         }
 
         try {
-            productoService.save(producto, archivoImagen);
+            productoService.save(producto);
             return "redirect:/admin/productos";
         } catch (Exception e) {
             model.addAttribute("marcas", marcaService.findAll());
             model.addAttribute("categorias", categoriaService.findAll());
-            model.addAttribute("error", "Error crítico al procesar el producto: " + e.getMessage());
+            model.addAttribute("error", "No se pudo guardar: " + e.getMessage());
             return "admin/productos/formulario";
         }
     }

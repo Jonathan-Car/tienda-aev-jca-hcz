@@ -47,7 +47,7 @@
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a th:href="@{/}" class="text-decoration-none">Inicio</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/templates/categorias}" class="text-decoration-none">Categorías</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/categorias}" class="text-decoration-none">Categorías</a></li>
             <li class="breadcrumb-item active" aria-current="page" th:text="${categoria.nombre}">Categoría</li>
         </ol>
     </nav>
@@ -81,7 +81,7 @@
                     </div>
 
                     <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-5">
-                        <a th:href="@{/templates/categorias}" class="btn btn-outline-secondary btn-lg px-4 me-md-2">
+                        <a th:href="@{/categorias}" class="btn btn-outline-secondary btn-lg px-4 me-md-2">
                             <i class="bi bi-arrow-left"></i> Volver al listado
                         </a>
                     </div>

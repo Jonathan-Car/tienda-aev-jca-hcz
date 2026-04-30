@@ -27,9 +27,11 @@ public class CategoriaController{
         return "categorias/list";
     }
     @GetMapping("/{id}")
-    public String detalle(@PathVariable("id") Long id, Model model) {
+    public String detalle(@PathVariable Long id, Model model) {
         //buscamos la categoria por ID
         Categoria categoria = categoriaService.findById(id);
+        // Si el ID no existe en la DB, findById devuelve null
+        if (categoria == null) return "redirect:/categorias";
         // Ordena alfabéticamente
         model.addAttribute("productos", categoriaService.obtenerProductosDeCategoria(id));
         // añadimos al modelo la categoria

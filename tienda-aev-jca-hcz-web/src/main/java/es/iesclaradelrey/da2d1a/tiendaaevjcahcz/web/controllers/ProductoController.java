@@ -2,6 +2,7 @@ package es.iesclaradelrey.da2d1a.tiendaaevjcahcz.web.controllers;
 
 import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.entities.Producto;
 import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.repositories.IProductoRepository;
+import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.services.IProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,29 +21,39 @@ import java.util.List;
 @RequestMapping("/productos")
 public class ProductoController {
 
-    // Inyección dependencias (repositorio)
-    private final IProductoRepository productoRepository;
+    private final IProductoService productoService;
 
-    public ProductoController(IProductoRepository productoRepository) {
-        this.productoRepository = productoRepository;
+    public ProductoController(IProductoService productoService) {
+        this.productoService = productoService;
     }
 
-    // Lista productos disponibles
-    @GetMapping
+    // Lista general de catálogo
+    @GetMapping({"/", ""})
     public String listado(Model model) {
-        List<Producto> productos = productoRepository.findAll();
-        // Ordenación por nombre (alfabéticamente)
-        productos.sort(Comparator.comparing(Producto::getNombre));
+        // findAll() de ServiceImpl que ya tiene el Comparator A-Z
+        List<Producto> productos = productoService.findAll();
         model.addAttribute("productos", productos);
+        // Configuración para fragmento de navegación en listado
+        model.addAttribute("pagina_actual", "Catálogo de Productos");
+
         return "productos/listado";
     }
 
-    // Detalle
+    // Detalle de un producto
     @GetMapping("/{id}/{nombre}")
-    public String detalle(@PathVariable Long id, @PathVariable String nombre, Model model) {
-        // Búsqueda por ID, ignora nombre
-        Producto producto = productoRepository.findById(id).orElseThrow();
+    public String detalle(@PathVariable Long id, Model model) {
+        Producto producto = productoService.findById(id);
+
+        if (producto == null) {
+            return "redirect:/productos";
+        }
         model.addAttribute("producto", producto);
+
+        // Datos para las migas de pan (breadcrumb)
+        model.addAttribute("pagina_actual", producto.getNombre());
+        model.addAttribute("ruta_padre", "/productos");
+        model.addAttribute("nombre_padre", "Catálogo");
+
         return "productos/detalle";
     }
 }

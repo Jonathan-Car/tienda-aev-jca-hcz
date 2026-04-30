@@ -106,7 +106,7 @@
                     </div>
                     <div class="card-body">
                         <h6 class="card-title fw-bold text-dark" th:text="${p.nombre}">Producto</h6>
-                        <p class="card-text text-primary fw-bold" th:text="${p.precioFinal + '€'}">0€</p>
+                        <p class="card-text text-primary fw-bold" th:text="${p.precio + '€'}">0€</p>
                         <a th:href="@{/productos/{id}/{nombre}(id=${p.id}, nombre=${p.nombre})}"
                            class="btn btn-sm btn-outline-dark w-100">Ver detalles</a>
                     </div>

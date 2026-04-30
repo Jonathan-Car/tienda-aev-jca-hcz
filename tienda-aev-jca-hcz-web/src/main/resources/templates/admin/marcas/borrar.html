@@ -10,13 +10,13 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="alert alert-warning border-danger shadow p-5">
-                <h2 class="text-danger mb-4">¿Eliminar Categoría?</h2>
-                <p class="fs-5">Está a punto de borrar la categoría:</p>
-                <h3 class="mb-5" th:text="${categoria.nombre}">Nombre de la categoría</h3>
+                <h2 class="text-danger mb-4">¿Eliminar Marca?</h2>
+                <p class="fs-5">Está a punto de borrar la marca:</p>
+                <h3 class="mb-5" th:text="${marca.nombre}">Nombre de la marca</h3>
 
-                <form th:action="@{/admin/categorias/{id}/borrar(id=${categoria.id})}" method="post">
+                <form th:action="@{/admin/marcas/{id}/borrar(id=${marca.id})}" method="post">
                     <div class="d-flex justify-content-center gap-3">
-                        <a th:href="@{/admin/categorias}" class="btn btn-outline-secondary px-4">Cancelar</a>
+                        <a th:href="@{/admin/marcas}" class="btn btn-outline-secondary px-4">Cancelar</a>
                         <button type="submit" class="btn btn-danger px-4">Sí, Borrar definitivamente</button>
                     </div>
                 </form>
@@ -25,4 +25,4 @@
     </div>
 </div>
 </body>
-</html
+</html>

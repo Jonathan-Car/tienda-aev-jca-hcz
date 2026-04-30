@@ -44,13 +44,13 @@
 <div th:replace="~{partes :: menu_publico}"></div>
 
 <div class="container py-5">
-    <nav aria-label="breadcrumb" class="mb-4">
+    <div th:replace="~{partes :: migas_publicas(${pagina_actual}, ${ruta_padre}, ${nombre_padre})}">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a th:href="@{/}" class="text-decoration-none">Inicio</a></li>
             <li class="breadcrumb-item"><a th:href="@{/categorias}" class="text-decoration-none">Categorías</a></li>
             <li class="breadcrumb-item active" aria-current="page" th:text="${categoria.nombre}">Categoría</li>
         </ol>
-    </nav>
+    </div>
 
     <div class="card detail-card shadow-lg mb-5">
         <div class="row g-0">
@@ -93,8 +93,8 @@
     <div class="mt-5">
         <h3 class="fw-bold mb-4 border-bottom pb-2">Productos en esta categoría</h3>
 
-        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4" th:if="${not #lists.isEmpty(categoria.productos)}">
-            <div class="col" th:each="p : ${categoria.productos}">
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4" th:if="${not #lists.isEmpty(productos)}">
+            <div class="col" th:each="p : ${productos}">
                 <div class="card h-100 product-item-card shadow-sm">
                     <div class="p-3 text-center bg-light rounded-top">
                         <img th:if="${p.imagen != null and !p.imagen.isEmpty()}"
@@ -114,7 +114,7 @@
             </div>
         </div>
 
-        <div th:if="${#lists.isEmpty(categoria.productos)}" class="alert alert-light border text-center py-4">
+        <div th:if="${#lists.isEmpty(productos)}" class="alert alert-light border text-center py-4">
             No hay productos asignados a esta categoría todavía.
         </div>
     </div>

@@ -30,6 +30,8 @@ public class CategoriaController{
     public String detalle(@PathVariable("id") Long id, Model model) {
         //buscamos la categoria por ID
         Categoria categoria = categoriaService.findById(id);
+        // Ordena alfabéticamente
+        model.addAttribute("productos", categoriaService.obtenerProductosDeCategoria(id));
         // añadimos al modelo la categoria
         model.addAttribute("categoria", categoria);
         //devolvemos el html de detalle

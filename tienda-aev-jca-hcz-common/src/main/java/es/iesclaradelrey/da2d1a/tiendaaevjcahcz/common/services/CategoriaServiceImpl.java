@@ -38,11 +38,13 @@ public class CategoriaServiceImpl implements ICategoriaService {
     }
     @Override
     public List<Producto> obtenerProductosDeCategoria(Long id) {
-        Categoria categoria = categoriaRepository.findById(id).orElse(null);
+        Categoria cat = categoriaRepository.findById(id).orElseThrow();
 
-        if (categoria == null) return null;
-        return categoria.getProductos().stream()
-                .sorted(Comparator.comparing(Producto::getNombre, String.CASE_INSENSITIVE_ORDER))
-                .collect(Collectors.toList());
+        return cat.getProductos().stream()
+                // Filtramos posibles nulos para evitar errores en la vista
+                .filter(p -> p.getNombre() != null)
+                // Ordenamos alfabéticamente (case insensitive)
+                .sorted(Comparator.comparing(p -> p.getNombre().toLowerCase()))
+                .toList();
     }
 }

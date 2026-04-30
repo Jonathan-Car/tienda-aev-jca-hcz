@@ -1,33 +1,6 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{partes :: cabecera_publica('Detalle del Producto')}"></head>
-
-<body>
-<style>
-    body { background-color: #f8f9fa; }
-    .detail-card {
-        border: none;
-        border-radius: 15px;
-        overflow: hidden;
-    }
-    .precio-old {
-        text-decoration: line-through;
-        color: #dc3545;
-        font-size: 1.1rem;
-    }
-    .precio-now {
-        color: #198754;
-        font-weight: bold;
-        font-size: 2rem;
-    }
-    .img-fluid-custom {
-        max-height: 500px;
-        object-fit: contain;
-    }
-</style>
-<div th:replace="~{partes :: menu_publico}"></div>
-
 <div class="container py-5">
+    <div th:replace="~{partes :: migas_publicas(${pagina_actual}, ${ruta_padre}, ${nombre_padre})}"></div>
+
     <div class="card detail-card shadow-lg">
         <div class="row g-0">
             <div class="col-md-6 bg-white d-flex align-items-center justify-content-center">
@@ -37,54 +10,49 @@
                      class="img-fluid img-fluid-custom p-4"/>
 
                 <div th:unless="${producto.imagen != null and !producto.imagen.isEmpty()}" class="text-center p-5">
-                    <img th:src="@{/imagenes/productos/no-disponible.png}"
-                         alt="Imagen no disponible"
-                         class="img-fluid opacity-50"
-                         style="max-width: 250px;"/>
+                    <img th:src="@{/imagenes/productos/no-disponible.png}" class="img-fluid opacity-50" style="max-width: 250px;"/>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="card-body p-5">
-                    <span class="badge bg-dark mb-3">PRODUCTO OFERTADO</span>
-                    <h1 class="display-4 fw-bold mb-1" th:text="${producto.nombre}">Nombre del Producto</h1>
+                    <span class="badge bg-dark mb-3">DETALLE TÉCNICO</span>
+                    <h1 class="display-4 fw-bold mb-1" th:text="${producto.nombre}">Nombre</h1>
 
                     <p class="text-muted mb-3"><strong>EAN:</strong> <span th:text="${producto.codigoProducto}"></span></p>
 
-                    <p class="mb-2"><strong>Marca:</strong>
-                        <a th:href="@{/marcas/{id}(id=${producto.marca.id})}"
-                           th:text="${producto.marca.nombre}"
-                           class="text-decoration-none"></a>
-                    </p>
+                    <div class="mb-3">
+                        <p class="mb-1"><strong>Marca:</strong>
+                            <a th:href="@{/marcas/{id}(id=${producto.marca.id})}" th:text="${producto.marca.nombre}" class="text-decoration-none"></a>
+                        </p>
+                        <p><strong>Categorías:</strong>
+                            <span th:each="cat : ${producto.categorias}">
+                                <a th:href="@{/categorias/{id}(id=${cat.id})}"
+                                   th:text="${cat.nombre}"
+                                   class="badge bg-secondary text-decoration-none me-1"></a>
+                            </span>
+                        </p>
+                    </div>
 
                     <div class="mt-4 mb-4">
                         <h5>Descripción</h5>
-                        <p th:text="${producto.descripcion}">Descripción completa aquí.</p>
+                        <p th:text="${producto.descripcion}">Descripción completa.</p>
                     </div>
 
                     <div class="mb-4 p-3 bg-light rounded shadow-sm">
                         <div th:if="${producto.descuento > 0}">
-                            <span class="precio-old" th:text="${producto.precio + ' €'}">0.00 €</span>
-                            <span class="badge bg-danger ms-2" th:text="${'-' + producto.descuento + '%'}">OFERTA</span>
+                            <span class="precio-old" th:text="${producto.precio + ' €'}"></span>
+                            <span class="badge bg-danger ms-2" th:text="${'-' + producto.descuento + '%'}"></span>
                         </div>
-                        <div class="precio-now"
-                             th:text="${#numbers.formatDecimal(producto.precio - (producto.precio * producto.descuento / 100.0), 1, 2) + ' €'}">
-                            0.00 €
-                        </div>
+                        <div class="precio-now" th:text="${#numbers.formatDecimal(producto.precioFinal, 1, 2) + ' €'}"></div>
                         <p class="text-muted small mt-1">*IVA incluido y envío gratuito</p>
                     </div>
 
-                    <a th:href="@{/productos/}" class="btn btn-outline-dark rounded-pill">Volver al catálogo</a>
+                    <a th:href="@{/productos}" class="btn btn-outline-dark rounded-pill">
+                        <i class="bi bi-arrow-left"></i> Volver al catálogo
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<footer class="text-center py-4 text-muted">
-    <small>© 2026 LingTech - Detalle de Producto</small>
-</footer>
-
-<th:block th:replace="~{partes :: scripts}"></th:block>
-</body>
-</html>

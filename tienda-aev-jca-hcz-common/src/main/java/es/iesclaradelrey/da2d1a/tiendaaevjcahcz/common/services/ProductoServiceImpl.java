@@ -3,6 +3,7 @@ package es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.services;
 import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.entities.Producto;
 import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.repositories.IProductoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Comparator;
 import java.util.List;
@@ -27,7 +28,11 @@ public class ProductoServiceImpl implements IProductoService {
         return productoRepository.findById(id).orElse(null);
     }
     @Override
-    public void save(Producto producto) {
+    public void save(Producto producto, MultipartFile archivoImagen) {
+        if (archivoImagen != null && !archivoImagen.isEmpty()) {
+            String nombreArchivo = archivoImagen.getOriginalFilename();
+            producto.setImagen(nombreArchivo);
+        }
         productoRepository.save(producto);
     }
     @Override

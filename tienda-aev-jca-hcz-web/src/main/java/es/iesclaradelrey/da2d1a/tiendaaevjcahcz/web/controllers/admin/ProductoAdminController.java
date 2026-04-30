@@ -4,9 +4,12 @@ import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.entities.Producto;
 import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.services.ICategoriaService;
 import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.services.IMarcaService;
 import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.services.IProductoService;
+import jakarta.validation.Valid;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
  @RequestMapping("/admin/productos")
@@ -47,14 +50,23 @@ public class ProductoAdminController {
         return "admin/productos/formulario";
     }
     @PostMapping("/guardar")
-    public String guardarProducto(Producto producto, Model model) {
+    public String guardarProducto(@Valid @ModelAttribute("producto") Producto producto,
+                                  BindingResult result,
+                                  @RequestParam("archivoImagen") MultipartFile archivoImagen,
+                                  Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("marcas", marcaService.findAll());
+            model.addAttribute("categorias", categoriaService.findAll());
+            return "admin/productos/formulario";
+        }
+
         try {
-            productoService.save(producto);
+            productoService.save(producto, archivoImagen);
             return "redirect:/admin/productos";
         } catch (Exception e) {
             model.addAttribute("marcas", marcaService.findAll());
             model.addAttribute("categorias", categoriaService.findAll());
-            model.addAttribute("error", "Error al guardar el producto");
+            model.addAttribute("error", "Error crítico al procesar el producto: " + e.getMessage());
             return "admin/productos/formulario";
         }
     }

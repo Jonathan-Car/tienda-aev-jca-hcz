@@ -16,7 +16,7 @@ public class EventoSeguridad {
     private Long id;
 
     private LocalDateTime fechaHora;
-    private String username;
+    private String usuario;
 
     @Enumerated(EnumType.STRING)
     private TipoEvento tipoEvento; // enum
@@ -24,11 +24,10 @@ public class EventoSeguridad {
     public EventoSeguridad() {
     }
 
-    public EventoSeguridad(Long id, LocalDateTime fechaHora, String username, TipoEvento tipoEvento) {
-        this.id = id;
-        this.fechaHora = fechaHora;
-        this.username = username;
+    public EventoSeguridad(String usuario, TipoEvento tipoEvento) {
+        this.usuario = usuario;
         this.tipoEvento = tipoEvento;
+        this.fechaHora = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -47,12 +46,12 @@ public class EventoSeguridad {
         this.fechaHora = fechaHora;
     }
 
-    public String getUsername() {
-        return username;
+    public String getusuario() {
+        return usuario;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setusuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public TipoEvento getTipoEvento() {

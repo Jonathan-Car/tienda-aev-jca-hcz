@@ -40,8 +40,8 @@ public class ProductoController {
     }
 
     // Detalle de un producto
-    @GetMapping("/{id}/{nombre}")
-    public String detalle(@PathVariable Long id, Model model) {
+    @GetMapping("/{id}")
+    public String detalle(@PathVariable("id") Long id, Model model) {
         Producto producto = productoService.findById(id);
 
         if (producto == null) {

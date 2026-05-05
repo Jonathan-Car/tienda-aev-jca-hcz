@@ -1,31 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{partes :: cabecera_publica('Detalle de Producto')}"></head>
+
+<style>
+    body { background-color: #f8f9fa; }
+    .detail-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        border: none;
+    }
+    .img-container {
+        background: #e9ecef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 400px;
+    }
+    .img-fluid-custom {
+        max-height: 450px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+    .img-fluid-custom:hover { transform: scale(1.05); }
+    .badge-category {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.8rem;
+    }
+    .precio-old {
+        text-decoration: line-through;
+        color: #dc3545;
+        font-size: 0.95rem;
+        margin-right: 0.5rem;
+    }
+    .precio-now {
+        color: #198754;
+        font-weight: bold;
+        font-size: 1.4rem;
+    }
+</style>
+
+<body>
+<div th:replace="~{partes :: menu_publico}"></div>
+
 <div class="container py-5">
+    <!-- Migas de pan (breadcrumb) -->
     <div th:replace="~{partes :: migas_publicas(${pagina_actual}, ${ruta_padre}, ${nombre_padre})}"></div>
 
-    <div class="card detail-card shadow-lg">
+    <div class="card detail-card shadow-lg mb-5">
         <div class="row g-0">
-            <div class="col-md-6 bg-white d-flex align-items-center justify-content-center">
+            <!-- Imagen producto -->
+            <div class="col-md-6 img-container">
                 <img th:if="${producto.imagen != null and !producto.imagen.isEmpty()}"
                      th:src="@{/imagenes/productos/{img}(img=${producto.imagen})}"
                      th:alt="'Imagen de ' + ${producto.nombre}"
                      class="img-fluid img-fluid-custom p-4"/>
 
-                <div th:unless="${producto.imagen != null and !producto.imagen.isEmpty()}" class="text-center p-5">
-                    <img th:src="@{/imagenes/productos/no-disponible.png}" class="img-fluid opacity-50" style="max-width: 250px;"/>
+                <div th:unless="${producto.imagen != null and !producto.imagen.isEmpty()}" class="text-center">
+                    <img th:src="@{/imagenes/productos/no-disponible.png}"
+                         alt="Imagen no disponible"
+                         class="img-fluid opacity-50"
+                         style="max-width: 200px;"/>
                 </div>
             </div>
 
+            <!-- Datos producto -->
             <div class="col-md-6">
                 <div class="card-body p-5">
-                    <span class="badge bg-dark mb-3">DETALLE TÉCNICO</span>
-                    <h1 class="display-4 fw-bold mb-1" th:text="${producto.nombre}">Nombre</h1>
+                    <span class="badge bg-dark mb-3 badge-category">DETALLE TÉCNICO</span>
+                    <h1 class="display-5 fw-bold mb-2" th:text="${producto.nombre}">Nombre producto</h1>
 
-                    <p class="text-muted mb-3"><strong>EAN:</strong> <span th:text="${producto.codigoProducto}"></span></p>
+                    <p class="text-muted mb-3">
+                        <strong>EAN:</strong>
+                        <span th:text="${producto.codigoProducto}">0000000000000</span>
+                    </p>
 
                     <div class="mb-3">
-                        <p class="mb-1"><strong>Marca:</strong>
-                            <a th:href="@{/marcas/{id}(id=${producto.marca.id})}" th:text="${producto.marca.nombre}" class="text-decoration-none"></a>
+                        <p class="mb-1">
+                            <strong>Marca:</strong>
+                            <a th:href="@{/marcas/{id}(id=${producto.marca.id})}"
+                               th:text="${producto.marca.nombre}"
+                               class="text-decoration-none"></a>
                         </p>
-                        <p><strong>Categorías:</strong>
+                        <p>
+                            <strong>Categorías:</strong>
                             <span th:each="cat : ${producto.categorias}">
                                 <a th:href="@{/categorias/{id}(id=${cat.id})}"
                                    th:text="${cat.nombre}"
@@ -39,16 +98,21 @@
                         <p th:text="${producto.descripcion}">Descripción completa.</p>
                     </div>
 
+                    <!-- Bloque precio -->
                     <div class="mb-4 p-3 bg-light rounded shadow-sm">
                         <div th:if="${producto.descuento > 0}">
-                            <span class="precio-old" th:text="${producto.precio + ' €'}"></span>
-                            <span class="badge bg-danger ms-2" th:text="${'-' + producto.descuento + '%'}"></span>
+                            <span class="precio-old" th:text="${producto.precio + ' €'}">0 €</span>
+                            <span class="badge bg-danger ms-1"
+                                  th:text="${'-' + producto.descuento + '%'}">-0%</span>
                         </div>
-                        <div class="precio-now" th:text="${#numbers.formatDecimal(producto.precioFinal, 1, 2) + ' €'}"></div>
+                        <div class="precio-now"
+                             th:text="${#numbers.formatDecimal(producto.precio - (producto.precio * producto.descuento / 100.0), 1, 2) + ' €'}">
+                            0 €
+                        </div>
                         <p class="text-muted small mt-1">*IVA incluido y envío gratuito</p>
                     </div>
 
-                    <a th:href="@{/productos}" class="btn btn-outline-dark rounded-pill">
+                    <a th:href="@{/productos}" class="btn btn-outline-secondary btn-lg px-4">
                         <i class="bi bi-arrow-left"></i> Volver al catálogo
                     </a>
                 </div>
@@ -56,3 +120,11 @@
         </div>
     </div>
 </div>
+
+<footer class="text-center text-muted mt-5 pb-4">
+    <small>© 2026 LingTech Cloud - Vista de Detalle de Producto</small>
+</footer>
+
+<th:block th:replace="~{partes :: scripts}"></th:block>
+</body>
+</html>

@@ -44,11 +44,16 @@
         <div class="col" th:each="p : ${productos}">
             <div class="card h-100 product-card shadow-sm">
                 <div class="bg-light p-4 text-center" style="border-radius: 15px 15px 0 0;">
-                    <img th:if="${p.imagen != null and !p.imagen.isEmpty()}"
+
+                    <img th:if="${p.imagen != null and #strings.startsWith(p.imagen, 'http')}"
+                         th:src="${p.imagen}"
+                         class="img-fluid" style="max-height: 150px; object-fit: contain;"
+                         th:alt="'Imagen de ' + ${p.nombre}">
+                    <img th:if="${p.imagen != null and !#strings.startsWith(p.imagen, 'http')}"
                          th:src="@{/imagenes/productos/{img}(img=${p.imagen})}"
                          class="img-fluid" style="max-height: 150px; object-fit: contain;"
                          th:alt="'Imagen de ' + ${p.nombre}">
-                    <img th:unless="${p.imagen != null and !p.imagen.isEmpty()}"
+                    <img th:if="${p.imagen == null or p.imagen.isEmpty()}"
                          th:src="@{/imagenes/productos/no-disponible.png}"
                          class="img-fluid opacity-25" style="max-height: 150px;" alt="">
                 </div>
@@ -80,8 +85,7 @@
                 </div>
 
                 <div class="card-footer bg-transparent border-0 pb-4">
-                    <a th:href="@{/productos/{id}/{nombre}(id=${p.id}, nombre=${p.nombre})}"
-                       class="btn btn-dark w-100 rounded-pill">Ver Detalles</a>
+                    <a th:href="@{/productos/{id}(id=${p.id})}" class="btn btn-dark w-100 rounded-pill">Ver Detalles</a>
                 </div>
             </div>
         </div>

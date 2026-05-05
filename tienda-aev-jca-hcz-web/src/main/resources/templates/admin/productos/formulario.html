@@ -7,41 +7,43 @@
 <div class="container mt-5">
     <div class="card shadow">
         <div class="card-header bg-dark text-white">
-            <h4 class="mb-0">Datos del Producto</h4>
+            <h4 class="mb-0" th:text="${producto.id == null} ? 'Nuevo Producto' : 'Editar Producto'">Datos del Producto</h4>
         </div>
         <div class="card-body">
-            <form th:action="@{/admin/productos/guardar}" th:object="${producto}" method="post" enctype="multipart/form-data">
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+            <form th:action="@{/admin/productos/guardar}" th:object="${producto}" method="post">
                 <input type="hidden" th:field="*{id}" />
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Nombre</label>
                         <input type="text" th:field="*{nombre}" class="form-control" th:errorclass="is-invalid" />
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+                        <div class="invalid-feedback" th:errors="*{nombre}"></div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Código EAN</label>
                         <input type="text" th:field="*{codigoProducto}" class="form-control" th:errorclass="is-invalid" />
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('codigoProducto')}" th:errors="*{codigoProducto}"></div>
+                        <div class="invalid-feedback" th:errors="*{codigoProducto}"></div>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Descripción</label>
                     <textarea th:field="*{descripcion}" class="form-control" rows="3" th:errorclass="is-invalid"></textarea>
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></div>
+                    <div class="invalid-feedback" th:errors="*{descripcion}"></div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Precio (€)</label>
                         <input type="number" step="0.01" th:field="*{precio}" class="form-control" th:errorclass="is-invalid" />
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></div>
+                        <div class="invalid-feedback" th:errors="*{precio}"></div>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Descuento (%)</label>
                         <input type="number" th:field="*{descuento}" class="form-control" th:errorclass="is-invalid" />
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('descuento')}" th:errors="*{descuento}"></div>
+                        <div class="invalid-feedback" th:errors="*{descuento}"></div>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Marca</label>
@@ -49,16 +51,13 @@
                             <option value="">-- Selecciona --</option>
                             <option th:each="m : ${marcas}" th:value="${m.id}" th:text="${m.nombre}"></option>
                         </select>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}"></div>
+                        <div class="invalid-feedback" th:errors="*{marca}"></div>
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Imagen del Producto</label>
-                    <input type="file" name="archivoImagen" class="form-control" accept="image/*" />
-                    <small class="text-muted" th:if="*{imagen != null}">
-                        Imagen actual: <span th:text="*{imagen}"></span>
-                    </small>
+                    <label class="form-label">URL de la Imagen (Internet)</label>
+                    <input type="text" th:field="*{imagen}" class="form-control" placeholder="Pega aquí la URL de la imagen de internet" />
                 </div>
 
                 <div class="mb-3">
@@ -75,7 +74,7 @@
                 </div>
 
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-success">Guardar Producto</button>
+                    <button type="submit" class="btn btn-success">Aceptar</button>
                     <a th:href="@{/admin/productos}" class="btn btn-secondary">Cancelar</a>
                 </div>
             </form>

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{admin/partes :: cabecera_comun('Detalle de Marca')}"></head>
 
-<body class="bg-dark text-white">
+<body class="bg-light text-black">
 <div th:replace="~{admin/partes :: menu_superior('Tienda Admin')}"></div>
 
 <div class="container">
@@ -13,7 +13,7 @@
             <h1 class="display-5">
                 Gestión de Marca: <span th:text="${marca.nombre}" class="text-info">Nombre</span>
             </h1>
-            <p class="lead">Productos asociados (Ordenados alfabéticamente por Java)</p>
+            <p class="lead">Productos asociados</p>
         </div>
         <div class="col-auto">
             <a th:href="@{/admin/marcas}" class="btn btn-outline-light">

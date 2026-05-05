@@ -17,6 +17,8 @@
     <modules>
         <module>tienda-aev-jca-hcz-common</module>
         <module>tienda-aev-jca-hcz-web</module>
+        <module>tienda-aev-jca-hcz-security</module>
+        <module>tienda-aev-jca-hcz-api</module>
     </modules>
 
     <properties>

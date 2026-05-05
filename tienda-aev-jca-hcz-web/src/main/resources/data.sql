@@ -46,3 +46,12 @@ INSERT INTO productos_categorias (producto_id, categoria_id) VALUES
 (11, 3), (12, 3), (13, 3), (14, 3), (15, 3), (16, 3),
 -- Tablets
 (17, 4), (18, 4), (19, 4), (20, 4);
+
+INSERT INTO usuarios (nombre, apellidos, email, password, fecha_registro)
+VALUES (
+           'Admin',
+           'Sistema',
+           'admin@tienda.com',
+           '$2a$12$E3lMGGjuK7LX7eepnJtW9e6TTGOAPnqn5ZgNatmR2f.RGENtCb55.', --pass123
+           CURRENT_TIMESTAMP
+       );

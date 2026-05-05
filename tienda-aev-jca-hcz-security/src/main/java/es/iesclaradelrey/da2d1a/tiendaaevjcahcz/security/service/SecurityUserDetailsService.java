@@ -2,7 +2,6 @@ package es.iesclaradelrey.da2d1a.tiendaaevjcahcz.security.service;
 
 import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.entities.Usuario;
 import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.repositories.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SecurityUserDetailsService implements UserDetailsService {
+    private final UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    public SecurityUserDetailsService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

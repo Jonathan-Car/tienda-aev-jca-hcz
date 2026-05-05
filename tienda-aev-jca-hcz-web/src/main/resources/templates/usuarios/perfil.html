@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{partes :: cabecera_publica(titulo=${titulo})}"></head>
+
+<body class="bg-light">
+<nav th:replace="~{partes :: menu_publico}"></nav>
+<nav th:replace="~{partes :: migas_publicas(pagina_actual='Mi Perfil', ruta_padre=null, nombre_padre=null)}"></nav>
+
+<main class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white py-3 border-bottom">
+                    <h4 class="mb-0 text-primary">
+                        <i class="bi bi-person-badge me-2"></i>Información del Usuario
+                    </h4>
+                </div>
+
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-4 text-center border-end">
+                            <div class="display-1 text-secondary mb-3">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <h3 class="h4 mb-1" th:text="${usuario.nombre} + ' ' + ${usuario.apellidos}">Nombre Apellidos</h3>
+                            <p class="text-muted mb-0" th:text="${usuario.email}">email@ejemplo.com</p>
+                        </div>
+
+                        <div class="col-md-8 ps-md-5 mt-4 mt-md-0">
+                            <div class="mb-3">
+                                <label class="small text-uppercase text-muted fw-bold">Teléfono de contacto</label>
+                                <p class="fs-5 mb-0" th:text="${usuario.telefono ?: 'No registrado'}">600 000 000</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="small text-uppercase text-muted fw-bold">Fecha de Nacimiento</label>
+                                <p class="fs-5 mb-0" th:text="${usuario.fechaNacimiento != null ? #temporals.format(usuario.fechaNacimiento, 'dd/MM/yyyy') : 'No especificada'}">01/01/1990</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="small text-uppercase text-muted fw-bold">Fecha de alta en el sistema</label>
+                                <p class="fs-5 mb-0" th:text="${#temporals.format(usuario.fechaRegistro, 'dd/MM/yyyy HH:mm')}">10/10/2023</p>
+                            </div>
+
+                            <div class="mb-0">
+                                <label class="small text-uppercase text-muted fw-bold mb-2 d-block">Roles asignados</label>
+                                <span th:each="rol : ${usuario.roles}"
+                                      class="badge bg-secondary me-1 px-3 py-2"
+                                      th:text="${rol.id}">ROLE_USER</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-white border-0 py-3 text-center">
+                    <a th:href="@{/}" class="btn btn-outline-primary px-4">
+                        <i class="bi bi-house-door me-2"></i>Volver a la Tienda
+                    </a>
+                </div>
+            </div>
+
+            <div class="alert alert-warning mt-4 d-flex align-items-center shadow-sm" sec:authorize="hasRole('ADMIN')">
+                <i class="bi bi-shield-check fs-3 me-3"></i>
+                <div>
+                    <strong>Modo Administrador activo:</strong> Estás visualizando este perfil con permisos de gestión de sistema.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<th:block th:replace="~{partes :: scripts}"></th:block>
+
+</body>
+</html>

@@ -106,10 +106,24 @@ public class Usuario {
     public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
-
+    @ManyToMany(fetch = FetchType.EAGER) // para que cargue los roles al autenticar
+    @JoinTable(
+            name = "usuarios_roles", // Nombre de la tabla intermedia
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id")
+    )
+    private java.util.Set<Rol> roles = new java.util.HashSet<>();
     // Método para asignar la fecha de registro automáticamente antes de insertar
     @PrePersist
     protected void onCreate() {
-        fechaRegistro = LocalDateTime.now(); // Asignado por el servidor[cite: 1]
+        fechaRegistro = LocalDateTime.now(); // Asignado por el servidor
+    }
+    public java.util.Set<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(java.util.Set<Rol> roles) {
+        this.roles = roles;
     }
 }
+

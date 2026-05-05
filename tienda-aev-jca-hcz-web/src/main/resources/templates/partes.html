@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="[http://www.thymeleaf.org/extras/spring-security](http://www.thymeleaf.org/extras/spring-security)">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:fragment="cabecera_publica(titulo)">
     <meta charset="UTF-8">
@@ -20,7 +20,11 @@
                 Hola, <strong sec:authentication="name">Usuario</strong>
             </span>
 
-            <a class="btn btn-outline-dark btn-sm me-2" th:href="@{/admin/productos}">
+            <a class="btn btn-outline-primary btn-sm me-2" th:href="@{/users/profile}">
+                <i class="bi bi-person-circle me-1"></i> Mi Perfil
+            </a>
+
+            <a sec:authorize="hasRole('ADMIN')" class="btn btn-outline-dark btn-sm me-2" th:href="@{/admin/productos}">
                 <i class="bi bi-person-lock me-1"></i> Admin Panel
             </a>
 

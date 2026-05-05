@@ -47,11 +47,31 @@ INSERT INTO productos_categorias (producto_id, categoria_id) VALUES
 -- Tablets
 (17, 4), (18, 4), (19, 4), (20, 4);
 
+
+INSERT INTO roles (id, descripcion) VALUES ('ADMIN', 'Administrador');
+INSERT INTO roles (id, descripcion) VALUES ('USER', 'Usuario normal');
+
 INSERT INTO usuarios (nombre, apellidos, email, password, fecha_registro)
 VALUES (
            'Admin',
            'Sistema',
            'admin@tienda.com',
-           '$2a$12$E3lMGGjuK7LX7eepnJtW9e6TTGOAPnqn5ZgNatmR2f.RGENtCb55.', --pass123
+           '$2a$12$E3lMGGjuK7LX7eepnJtW9e6TTGOAPnqn5ZgNatmR2f.RGENtCb55.', -- pass123
            CURRENT_TIMESTAMP
        );
+
+INSERT INTO usuarios (nombre, apellidos, email, password, fecha_registro)
+VALUES (
+           'Haoye',
+           'Escobar',
+           'user@tienda.com',
+           '$2a$12$E3lMGGjuK7LX7eepnJtW9e6TTGOAPnqn5ZgNatmR2f.RGENtCb55.', -- pass123
+           CURRENT_TIMESTAMP
+       );
+
+-- Asignación de roles
+-- El Admin tiene ambos roles
+INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES (1, 'ADMIN');
+INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES (1, 'USER');
+
+INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES (2, 'USER');

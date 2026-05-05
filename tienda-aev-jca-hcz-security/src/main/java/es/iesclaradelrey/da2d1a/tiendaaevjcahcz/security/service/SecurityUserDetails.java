@@ -27,7 +27,16 @@ public class SecurityUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        // lista para guardar las autoridades de Spring Security
+        java.util.List<org.springframework.security.core.authority.SimpleGrantedAuthority> authorities = new java.util.ArrayList<>();
+        // Recorre los roles de entidad Usuario
+        for (es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.entities.Rol rol : usuario.getRoles()) {
+
+            //Convertimos cada Rol en una SimpleGrantedAuthority
+            authorities.add(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + rol.getId()));
+        }
+
+        return authorities;
     }
 
     @Override

@@ -37,13 +37,9 @@ public class SeguridadConfig {
                 // CIERRE DE SESIÓN (11-3.4)
                 .logout(salir -> salir
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")           // Al salir, directo al Home
-                        .addLogoutHandler((request, response, autenticacion) -> {
-                            if (autenticacion != null) {
-                                // Registro logout (11-3.2)
-                                iEventoSeguridadRepository.save(new EventoSeguridad(autenticacion.getName(), TipoEvento.LOGOUT));
-                            }
-                        })
+                        .logoutSuccessUrl("/") // Al salir, directo al Home
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
                         .permitAll()
                 );
 

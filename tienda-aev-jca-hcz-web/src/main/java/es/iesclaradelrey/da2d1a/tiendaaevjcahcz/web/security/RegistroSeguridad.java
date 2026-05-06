@@ -6,6 +6,7 @@ import es.iesclaradelrey.da2d1a.tiendaaevjcahcz.common.repositories.IEventoSegur
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
+import org.springframework.security.authentication.event.LogoutSuccessEvent;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,5 +28,11 @@ public class RegistroSeguridad {
     public void conError(AuthenticationFailureBadCredentialsEvent evento) {
         String usuario = (String) evento.getAuthentication().getPrincipal();
         iEventoSeguridadRepository.save(new EventoSeguridad(usuario, TipoEvento.LOGIN_ERROR));
+    }
+
+    @EventListener
+    public void conLogout(LogoutSuccessEvent evento) {
+        String usuario = evento.getAuthentication().getName();
+        iEventoSeguridadRepository.save(new EventoSeguridad(usuario, TipoEvento.LOGOUT));
     }
 }

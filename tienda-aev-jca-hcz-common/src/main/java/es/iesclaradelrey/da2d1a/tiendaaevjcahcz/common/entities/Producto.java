@@ -42,13 +42,15 @@ public class Producto {
     @Column(nullable = false)
     private int descuento;
 
-    // Un producto siempre tiene una marca (7-3.1)
+    @Min(0)
+    @Column(nullable = false)
+    private int stock;
+
     @NotNull(message = "La marca es obligatoria")
     @ManyToOne(optional = false)
     @JoinColumn(name = "marca_id")
     private Marca marca;
 
-    // Producto puede pertenecer a varias categorías o ninguna (7-3.1)
     @ManyToMany
     @JoinTable(
             name = "productos_categorias",
@@ -143,4 +145,8 @@ public class Producto {
     public void setCategorias(List<Categoria> categorias) {
         this.categorias = categorias;
     }
+
+    public int getStock() { return stock; }
+
+    public void setStock(int stock) { this.stock = stock; }
 }

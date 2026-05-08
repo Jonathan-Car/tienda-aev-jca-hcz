@@ -37,11 +37,11 @@ public class CategoriaController {
         return categoriaMapper.toDto(categoriaRepository.findAll(Sort.by("nombre")));
     }
 
-    @GetMapping("/{categoryId}/products")
-    public List<ProductoDto> getProductsByCategory(@PathVariable Long categoryId) {
+    @GetMapping("/{categoriaId}/productos")
+    public List<ProductoDto> getProductosByCategoria(@PathVariable Long categoriaId) {
         // Usar método derivado del repositorio
         // Pasar Sort.by("nombre") como parámetro (3.7)
-        List<Producto> productos = productoRepository.findByCategorias_Id(categoryId, Sort.by("nombre"));
+        List<Producto> productos = productoRepository.findByCategorias_Id(categoriaId, Sort.by("nombre"));
 
         // Mapear a DTO
         return productoMapper.toDto(productos);

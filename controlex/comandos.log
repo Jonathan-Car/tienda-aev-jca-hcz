@@ -1,0 +1,5 @@
+2026-05-08 08:29:38.236 CMD type=quality-set payload={"type":"quality-set","archive":{"maxWidth":0},"panel":{"maxWidth":0,"jpegQuality":100,"format":"png"},"live":{"maxWidth":0,"jpegQuality":100,"fps":10,"format":"png"},"ts":1778221686107}
+2026-05-08 09:16:02.063 CMD type=quality-set payload={"type":"quality-set","archive":{"maxWidth":0},"panel":{"maxWidth":0,"jpegQuality":100,"format":"png"},"live":{"maxWidth":0,"jpegQuality":100,"fps":10,"format":"png"},"ts":1778224562905}
+2026-05-08 09:29:41.655 CMD type=stream-start payload={"type":"stream-start","ts":1778225382500}
+2026-05-08 09:29:50.170 CMD type=stream-stop payload={"type":"stream-stop","ts":1778225391009}
+2026-05-08 09:32:40.993 CMD type=stream-start payload={"type":"stream-start","ts":1778225561843}

@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Rol {
 
     @Id
-    @Column(length = 6)
+    @Column(length = 20)
     private String id;
 
     @Column(nullable = false, length = 100)

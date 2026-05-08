@@ -48,8 +48,8 @@ INSERT INTO productos_categorias (producto_id, categoria_id) VALUES
 (17, 4), (18, 4), (19, 4), (20, 4);
 
 
-INSERT INTO roles (id, descripcion) VALUES ('ADMIN', 'Administrador');
-INSERT INTO roles (id, descripcion) VALUES ('USER', 'Usuario normal');
+INSERT INTO roles (id, descripcion) VALUES ('ROLE_ADMIN', 'Administrador');
+INSERT INTO roles (id, descripcion) VALUES ('ROLE_USER', 'Usuario normal');
 
 INSERT INTO usuarios (nombre, apellidos, email, password, fecha_registro)
 VALUES (
@@ -71,7 +71,7 @@ VALUES (
 
 -- Asignación de roles
 -- El Admin tiene ambos roles
-INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES (1, 'ADMIN');
-INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES (1, 'USER');
+INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES (1, 'ROLE_ADMIN');
+INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES (1, 'ROLE_USER');
 
-INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES (2, 'USER');
+INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES (2, 'ROLE_USER');

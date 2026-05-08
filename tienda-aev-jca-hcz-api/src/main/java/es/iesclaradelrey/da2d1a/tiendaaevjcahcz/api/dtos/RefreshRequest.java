@@ -1,3 +1,12 @@
 package es.iesclaradelrey.da2d1a.tiendaaevjcahcz.api.dtos;
 
-public record RefreshRequest(String refreshToken) {}
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class RefreshRequest {
+    private String refreshToken;
+}
